@@ -563,9 +563,7 @@
                             var formsubmitted2 = $("#myForm").serializeArray();
                             var eggIDcaptured = formsubmitted2[0].value;
                             var eggIDuserRemoved = String(eggIDcaptured).split(String(youremail));
-                            var findEggID = String(eggList[i]).split(String(youremail));
-                            console.log(findEggID)
-                            yourEggList.push(findEggID.toString()); // add the egg ID portion of 
+                            yourEggList.push(eggIDuserRemoved.toString()); // add the egg ID portion of 
                             console.log(yourEggList);
                             clickedMarker.setIcon('blank.png'); // hide egg from screen when submitted - marker will be removed on click
                             // On success, clear all inputs;
