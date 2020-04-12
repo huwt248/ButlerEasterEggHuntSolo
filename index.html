@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Butler Easter Egg Hunt Solo Game</title>
+    <title>Butler Easter Egg Hunt: Solo Game</title>
       <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -88,15 +88,21 @@
         }
         input{
             width: 400px;
-            height: 20px;
+            height: 30px;
             padding: 10px;
-            font-size: 16px;
+            font-size: 20px;
             text-align: center;
             border: none;
             border-bottom: 2px solid red;
             border-radius: 10px;
             border-bottom-left-radius: 0px;
             border-bottom-right-radius: 0px;
+        }
+        #colleges{
+            width: 400px;
+            height: 30px;
+            padding: 10px;
+            font-size: 20px;
         }
         #mySubmit{
             width: 150px;
@@ -118,18 +124,18 @@
         #intro{
             z-index: 10;
             font-size: 8px;
-            padding-top: 100px;
+            padding-top: 70px;
         }
         #instructions{  
             z-index: 15;
-            font-size: 14px;
+            font-size: 18px;
             padding-top: 70px;
         }
         .startPopup{
             display:block;
             position: absolute;           
             top: 10%;
-            line-height: 30px;
+            line-height: 20px;
             padding: 30px;
             border-radius: 2%;
             width: 540px;
@@ -181,12 +187,16 @@
             line-height: 30px;
         }
 
-
+        #formHashInput{
+            display: none;
+        }
         .title{
             font-size: 50px;
             padding: 10px;
         }
-
+        #formHashInput{
+            display: none;
+        }
         
     </style>
       
@@ -208,7 +218,9 @@
         <input type="text" id ="formNameInput" name="name"><br>
         Username:<br>
         <input type="text" id ="formEmailInput" name="email"><br>
-       
+            <br>
+        <input type="text" id ="formHashInput" name="hash">
+        
         <input type="submit" id="mySubmit" value="Submit">
         </form>
     </div> 
@@ -237,15 +249,21 @@
     <div id="instructions" class="startPopup"><span class="title">Instructions</span><div id="closeButton" onclick="closeWindow()" style = "cursor:pointer">X</div><p>Using the arrow keys or by clicking on the screen, move around Durham to look for eggs. You can move the camera about by clicking and dragging</p><p>Eggs are not visible until you are close to them, and will only appear as you drag the screen to look around!</p><p>When you see an egg, click on it! A form will appear, which should already have your name and username filled in. Click submit to capture this egg. It will then disappear </p><p>At the top of the screen you will see how many eggs remain in the game for you to find, and also how many eggs you have found yourself.<p>If streetview gets stuck, press refresh to go back to the starting point, don't worry though, you won't lose the eggs you have already found if you re-enter the same username!</p></p></div>
     
     <div id="intro" class="startPopup">
-        <span id="introTitle">The Big Butler Virtual Easter Egg Hunt: Solo Version <p id="foundMessage">Please enter your name and Durham CIS Username (i.e. abcd12) to get started</p><p id="introMessage">This is used to record the eggs you find and recover your progress if you leave the site</span>
+        <span id="introTitle">The Big Butler Virtual Easter Egg Hunt: Solo Version <p id="foundMessage">Please enter your name and a unique username (i.e. your Durham IT username or similar) to get started</p><p id="introMessage">This is used to record the eggs you find and save your progress if you leave the site. If you are returning and have played before, please enter the same username to recover your progress.</span>
         
         <form id="emaillogging">
         Name:<br>
         <input type="text"  name="namesubmit"><br>
         <br>
-        Username (abcd12):<br>
+        Username:<br>
         <input type="text"  name="emailsubmit"><br>
         <br>
+        College:<br>
+        <select id="colleges"  name="collegesubmit">
+            <option value = "Josephine Butler">Josephine Butler</option>
+            <option value = "Other"> Other</option>   <br>
+            </select>
+        <br><br>
         <input type="submit" id="emailloggingsubmit" value="Submit">
         </form>
         <p><span id="emailconf"></span></p>
@@ -268,6 +286,7 @@
       var markers = [];
       var locations;
       var entry;
+        var yourcollege;
         
   function initMap() {
 
@@ -512,7 +531,8 @@
                         document.getElementById('eggidcode').value = yourEggCode; //egg id in 1st column of locations data
                         document.getElementById('eggidcode').readOnly = true; // cannot alter egg id code
                         document.getElementById('formNameInput').value = yourname;  // auto fill name and username
-                        document.getElementById('formEmailInput').value = youremail; 
+                        document.getElementById('formEmailInput').value = youremail;
+                        document.getElementById('formHashInput').value = yourcollege;
                         document.getElementById('mySubmit').disabled = false; 
                         document.getElementById('eggFound').style.backgroundImage='url("EasterBackground.png")'; 
                         document.getElementById('eggTitle').innerHTML = 'Congratulations!'; 
@@ -558,6 +578,7 @@
                             var formsubmitted = $("#emaillogging").serializeArray();
                             yourname = formsubmitted[0].value;
                             youremail = formsubmitted[1].value;
+                            yourcollege = formsubmitted[2].value;
                             emailentered = 1;
                            // On success, clear all inputs;
                             $imptemail.val('').attr('value','').removeAttr('checked').removeAttr('selected');
